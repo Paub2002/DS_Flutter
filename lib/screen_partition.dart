@@ -4,8 +4,8 @@ import 'screen_space.dart';
 import 'requests.dart';
 
 class ScreenPartition extends StatefulWidget {
-  final String id ;
-  const ScreenPartition({super.key, required this.id });
+  final String id;
+  const ScreenPartition({super.key, required this.id});
 
   @override
   State<ScreenPartition> createState() => _ScreenPartitionState();
@@ -29,15 +29,17 @@ class _ScreenPartitionState extends State<ScreenPartition> {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
               title: Text(snapshot.data!.root.id),
               actions: <Widget>[
-                IconButton(icon: const Icon(Icons.home), onPressed: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                }
-                  // TODO go home page = root
-                ),
+                IconButton(
+                    icon: const Icon(Icons.home),
+                    onPressed: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    }
+                    // TODO go home page = root
+                    ),
                 //TODO other actions
               ],
             ),
@@ -48,7 +50,7 @@ class _ScreenPartitionState extends State<ScreenPartition> {
               itemBuilder: (BuildContext context, int i) =>
                   _buildRow(snapshot.data!.root.children[i], i),
               separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
+                  const Divider(),
             ),
           );
         } else if (snapshot.hasError) {
@@ -66,14 +68,20 @@ class _ScreenPartitionState extends State<ScreenPartition> {
   }
 
   Widget _buildRow(Area area, int index) {
-    assert (area is Partition || area is Space);
+    assert(area is Partition || area is Space);
     if (area is Partition) {
       return ListTile(
+        tileColor:  Theme.of(context).colorScheme.primaryContainer,
+        focusColor:  Theme.of(context).colorScheme.secondary,
+        hoverColor:  Theme.of(context).colorScheme.secondary,
         title: Text('P ${area.id}'),
         onTap: () => _navigateDownPartition(area.id),
       );
     } else {
       return ListTile(
+        tileColor:  Theme.of(context).colorScheme.primary,
+        focusColor:  Theme.of(context).colorScheme.secondary,
+        hoverColor:  Theme.of(context).colorScheme.secondary,
         title: Text('S ${area.id}'),
         onTap: () => _navigateDownSpace(area.id),
       );
@@ -81,16 +89,16 @@ class _ScreenPartitionState extends State<ScreenPartition> {
   }
 
   void _navigateDownPartition(String childId) {
-    Navigator.of(context)
-        .push(MaterialPageRoute<void>(
-        builder: (context) => ScreenPartition(id: childId,))
-    );
+    Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (context) => ScreenPartition(
+              id: childId,
+            )));
   }
 
   void _navigateDownSpace(String childId) {
-    Navigator.of(context)
-        .push(
-        MaterialPageRoute<void>(builder: (context) => ScreenSpace(id: childId,))
-    );
+    Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (context) => ScreenSpace(
+              id: childId,
+            )));
   }
 }

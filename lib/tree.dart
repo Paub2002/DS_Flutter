@@ -1,11 +1,11 @@
-abstract class Area{
+abstract class Area {
   late String id;
   late List<dynamic> children;
   Area(this.id, this.children);
 }
 
 class Partition extends Area {
-  Partition(String id, List<Area>children) : super(id, children);
+  Partition(String id, List<Area> children) : super(id, children);
 }
 
 class Space extends Area {
@@ -16,7 +16,7 @@ class Door {
   late String id;
   late bool closed;
   late String state;
-  Door({required this.id, this.state="unlocked", this.closed=true});
+  Door({required this.id, this.state = "unlocked", this.closed = true});
 }
 
 // at the moment this class seems unnecessary but later we will extend it

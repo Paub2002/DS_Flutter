@@ -10,8 +10,7 @@ class Utils {
   }
 
   static String formattedTime(time) {
-    return  _timeFormatter.format(
-        DateTime(1, 1, 1, time.hour, time.minute));
+    return _timeFormatter.format(DateTime(1, 1, 1, time.hour, time.minute));
   }
 
   static String formattedDateTime(date, time) {

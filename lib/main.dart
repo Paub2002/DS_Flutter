@@ -13,18 +13,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ACS',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue,
-            brightness: Brightness.light),
-        useMaterial3: true,
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontSize: 20), // size of hello
+        title: 'ACS',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.green,
+             ),
+          useMaterial3: true,
+          textTheme: const TextTheme(
+            bodyMedium: TextStyle(fontSize: 20), // size of hello
+          ),
+          // see https://docs.flutter.dev/cookbook/design/themes
         ),
-        // see https://docs.flutter.dev/cookbook/design/themes
-      ),
-      home: const ScreenPartition(id: "ROOT")
-    );
+        home: const ScreenPartition(id: "ROOT"));
   }
 }

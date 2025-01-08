@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'tree.dart';
 import 'requests.dart';
 import 'screen_partition.dart';
+
 class ScreenSpace extends StatefulWidget {
   final String id;
   const ScreenSpace({super.key, required this.id});
@@ -28,21 +29,17 @@ class _ScreenSpaceState extends State<ScreenSpace> {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              foregroundColor: Theme
-                  .of(context)
-                  .colorScheme
-                  .onPrimary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
               title: Text(snapshot.data!.root.id),
               actions: <Widget>[
-                IconButton(icon: const Icon(Icons.home), onPressed: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                }
-                  // TODO go home page = root
-                ),
+                IconButton(
+                    icon: const Icon(Icons.home),
+                    onPressed: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    }
+                    // TODO go home page = root
+                    ),
                 //TODO other actions
               ],
             ),
@@ -53,7 +50,7 @@ class _ScreenSpaceState extends State<ScreenSpace> {
               itemBuilder: (BuildContext context, int i) =>
                   _buildRow(snapshot.data!.root.children[i], i),
               separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
+                  const Divider(),
             ),
           );
         } else if (snapshot.hasError) {
@@ -61,10 +58,7 @@ class _ScreenSpaceState extends State<ScreenSpace> {
         }
         // By default, show a progress indicator
         return Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
+            height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: Center(
               child: CircularProgressIndicator(),
@@ -72,27 +66,27 @@ class _ScreenSpaceState extends State<ScreenSpace> {
       },
     );
   }
-    Widget _buildRow(Door door, int index) {
-      return ListTile(
-        title: Text('${door.id}'),
-        trailing: door.state == 'locked'
-            ? TextButton(
-          onPressed: () {
-            unlockDoor(door);
-            futureTree = getTree(widget.id);
-            setState(() {});
-          },
-          child: Text('Unlock'),
-        )
-            : TextButton(
-          onPressed: () {
-            lockDoor(door);
-            futureTree = getTree(widget.id);
-            setState(() {});
-          },
-          child: Text('Lock'),
-        ),
-      );
-    }
-}
 
+  Widget _buildRow(Door door, int index) {
+    return ListTile(
+      title: Text('${door.id}'),
+      trailing: door.state == 'locked'
+          ? TextButton(
+              onPressed: () {
+                unlockDoor(door);
+                futureTree = getTree(widget.id);
+                setState(() {});
+              },
+              child: Text('Unlock'),
+            )
+          : TextButton(
+              onPressed: () {
+                lockDoor(door);
+                futureTree = getTree(widget.id);
+                setState(() {});
+              },
+              child: Text('Lock'),
+            ),
+    );
+  }
+}
