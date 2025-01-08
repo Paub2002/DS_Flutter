@@ -28,11 +28,11 @@ Future<Tree> getTree(String areaId) async {
 }
 
 Future<void> lockDoor(Door door) async {
-  lockUnlockDoor(door, 'lock');
+  await lockUnlockDoor(door, 'lock');
 }
 
 Future<void> unlockDoor(Door door) async {
-  lockUnlockDoor(door, 'unlock');
+  await lockUnlockDoor(door, 'unlock');
 }
 
 Future<void> lockUnlockDoor(Door door, String action) async {
@@ -47,5 +47,28 @@ Future<void> lockUnlockDoor(Door door, String action) async {
 // credential 11343 corresponds to user Ana of Administrator group
   print('lock ${door.id}, uri $uri');
   final String responseBody = await sendRequest(uri);
+  Map<String, dynamic> decoded = convert.jsonDecode(responseBody);
+  print('requests.dart : door ${door.id} is ${door.state}');
+}
+Future<void> openDoor(Door door) async {
+  await openCloseDoor(door, 'open');
+}
+
+Future<void> closeDoor(Door door) async {
+  await openCloseDoor(door, 'close');
+}
+Future<void> openCloseDoor(Door door, String action) async {
+// From the simulator : when asking to lock door D1, of parking, the request is
+// http://localhost:8080/reader?credential=11343&action=lock
+// &datetime=2023-12-08T09:30&doorId=D1
+  assert((action == 'open') | (action == 'close'));
+  String strNow = DATEFORMATTER.format(DateTime.now());
+  print(strNow);
+  Uri uri = Uri.parse("${BASE_URL}/reader?credential=11343&action=$action"
+      "&datetime=$strNow&doorId=${door.id}");
+// credential 11343 corresponds to user Ana of Administrator group
+  print('lock ${door.id}, uri $uri');
+  final String responseBody = await sendRequest(uri);
+  Map<String, dynamic> decoded = convert.jsonDecode(responseBody);
   print('requests.dart : door ${door.id} is ${door.state}');
 }

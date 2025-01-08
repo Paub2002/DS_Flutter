@@ -88,17 +88,30 @@ class _ScreenPartitionState extends State<ScreenPartition> {
     }
   }
 
+  void _refresh() async {
+    futureTree = getTree(widget.id);
+    setState(() {});
+  }
+
   void _navigateDownPartition(String childId) {
-    Navigator.of(context).push(MaterialPageRoute<void>(
-        builder: (context) => ScreenPartition(
-              id: childId,
-            )));
+    //https://stackoverflow.com/questions/49830553/how-to-go-back-and-refresh-the-previous-page-in-flutter?noredirect=1&lq=1
+    // but doing _refresh(); without then() after push may also work
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(
+      builder: (context) => ScreenPartition(id: childId),
+    ))
+        .then((var value) {
+      _refresh();
+    });
   }
 
   void _navigateDownSpace(String childId) {
-    Navigator.of(context).push(MaterialPageRoute<void>(
-        builder: (context) => ScreenSpace(
-              id: childId,
-            )));
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(
+      builder: (context) => ScreenSpace(id: childId),
+    ))
+        .then((var value) {
+      _refresh();
+    });
   }
 }

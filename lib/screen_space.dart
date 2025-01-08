@@ -20,6 +20,10 @@ class _ScreenSpaceState extends State<ScreenSpace> {
     futureTree = getTree(widget.id);
   }
 
+  void _refresh() async {
+    futureTree = getTree(widget.id);
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Tree>(
@@ -38,7 +42,6 @@ class _ScreenSpaceState extends State<ScreenSpace> {
                     onPressed: () {
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     }
-                    // TODO go home page = root
                     ),
                 //TODO other actions
               ],
@@ -69,21 +72,42 @@ class _ScreenSpaceState extends State<ScreenSpace> {
 
   Widget _buildRow(Door door, int index) {
     return ListTile(
+      leading:door.closed ?  IconButton(
+        icon : Icon(Icons.door_front_door),
+        onPressed: () async {
+          await openDoor(door)
+              .then((var value ) {
+            _refresh();
+          });
+        }
+      ):
+      IconButton(
+          icon : Icon(Icons.meeting_room),
+          onPressed: () async {
+            await closeDoor(door)
+                .then((var value ) {
+              _refresh();
+            });
+          }
+      ),
       title: Text('${door.id}'),
+
       trailing: door.state == 'locked'
           ? TextButton(
-              onPressed: () {
-                unlockDoor(door);
-                futureTree = getTree(widget.id);
-                setState(() {});
+              onPressed: () async {
+                await unlockDoor(door)
+                .then((var value ) {
+                  _refresh();
+                });
               },
               child: Text('Unlock'),
             )
           : TextButton(
-              onPressed: () {
-                lockDoor(door);
-                futureTree = getTree(widget.id);
-                setState(() {});
+              onPressed: () async {
+                await lockDoor(door)
+                    .then((var value ) {
+                  _refresh();
+                });
               },
               child: Text('Lock'),
             ),
