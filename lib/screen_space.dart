@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'tree.dart';
 import 'requests.dart';
+import 'screen_partition.dart';
 class ScreenSpace extends StatefulWidget {
   final String id;
   const ScreenSpace({super.key, required this.id});
@@ -37,7 +38,9 @@ class _ScreenSpaceState extends State<ScreenSpace> {
                   .onPrimary,
               title: Text(snapshot.data!.root.id),
               actions: <Widget>[
-                IconButton(icon: const Icon(Icons.home), onPressed: () {}
+                IconButton(icon: const Icon(Icons.home), onPressed: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                }
                   // TODO go home page = root
                 ),
                 //TODO other actions

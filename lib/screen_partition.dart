@@ -33,7 +33,9 @@ class _ScreenPartitionState extends State<ScreenPartition> {
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
               title: Text(snapshot.data!.root.id),
               actions: <Widget>[
-                IconButton(icon: const Icon(Icons.home), onPressed: () {}
+                IconButton(icon: const Icon(Icons.home), onPressed: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                }
                   // TODO go home page = root
                 ),
                 //TODO other actions
@@ -69,13 +71,11 @@ class _ScreenPartitionState extends State<ScreenPartition> {
       return ListTile(
         title: Text('P ${area.id}'),
         onTap: () => _navigateDownPartition(area.id),
-        // TODO, navigate down to show children areas
       );
     } else {
       return ListTile(
         title: Text('S ${area.id}'),
         onTap: () => _navigateDownSpace(area.id),
-        // TODO, navigate down to show children doors
       );
     }
   }
